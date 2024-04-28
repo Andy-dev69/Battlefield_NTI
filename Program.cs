@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection.PortableExecutable;
+using System.Collections.Generic;
 
 namespace Battlefield_NTI
 {
@@ -7,14 +7,83 @@ namespace Battlefield_NTI
     {
         static void Main(string[] args)
         {
-            TeStudent teStudent = new TeStudent("Marrio", 100);
-            Console.WriteLine($"Namn: {teStudent.Name}, Coding Grade: {teStudent.GetCodeGrade()}");
+            Console.Write("Ange hur många elever går klassen: ");
+            int numberOfStudents = int.Parse(Console.ReadLine());
 
-            EsStudent esStudent = new EsStudent("Bob the builder", 80);
-            Console.WriteLine($"Namn: {esStudent.Name}, Photo Grade: {esStudent.GetPhotoGrade()}");
+            List<Student> klass = new List<Student>();
 
-            ItStudent itStudent = new ItStudent("Andrei", 85);
-            Console.WriteLine($"Namn: {itStudent.Name}, Network Grade: {itStudent.GetNetworkGrade()}");
+            for (int i = 0; i < numberOfStudents; i++)
+            {
+                Console.WriteLine($"Information om elev NR. {i + 1}:");
+                Console.Write("Namn: ");
+                string name = Console.ReadLine();
+                Console.Write("Program (Teknik, ES eller IT): ");
+                string program = Console.ReadLine();
+                Console.Write("Hur duktig är eleven? (0-100): ");
+                int skill = int.Parse(Console.ReadLine());
+                switch (program)
+                {
+                    case "Teknik":
+                        if (name != null && skill >= 0 && skill <= 100) {
+                            klass.Add(new TeStudent(name, program, skill));   
+                        } else {
+                            Console.Clear();
+                            Console.WriteLine("Fel inmatning!");
+                            i--;
+                        }
+                        break;
+                    case "ES":
+                        if (name != null && skill >= 0 && skill <= 100) {
+                            klass.Add(new EsStudent(name, program, skill));   
+                        } else {
+                            Console.Clear();
+                            Console.WriteLine("Fel inmatning!");
+                            i--;
+                        }
+                        break;
+                    case "IT":
+                        if (name != null && skill >= 0 && skill <= 100) {
+                            klass.Add(new ItStudent(name, program, skill));   
+                        } else {
+                            Console.Clear();
+                            Console.WriteLine("Fel inmatning!");
+                            i--;
+                        }
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Fel inmatning av program!");
+                        i--;
+                        break;
+                }
+            }
+
+            foreach (var Student in klass)
+            {
+                Console.WriteLine($"\nNamn: {Student.Name}");
+                if (Student.GetDescription() == "Teknik") {
+                    var student = Student as TeStudent;
+                    if (student != null) {
+                        Console.WriteLine($"Teknikbetyg: {student.GetCodeGrade()}"); 
+                        Console.WriteLine($"Photobetyg: {student.GetPhotoGrade()}"); 
+                        Console.WriteLine($"Nätvärksbetyg: {student.GetNetworkGrade()}"); 
+                    }
+                } else if (Student.GetDescription() == "ES") {
+                    var student = Student as EsStudent;
+                    if (student != null) {
+                        Console.WriteLine($"Teknikbetyg: {student.GetCodeGrade()}"); 
+                        Console.WriteLine($"Photobetyg: {student.GetPhotoGrade()}"); 
+                        Console.WriteLine($"Nätvärksbetyg: {student.GetNetworkGrade()}"); 
+                    }
+                } else if (Student.GetDescription() == "IT") {
+                    var student = Student as ItStudent;
+                    if (student != null) {
+                        Console.WriteLine($"Teknikbetyg: {student.GetCodeGrade()}"); 
+                        Console.WriteLine($"Photobetyg: {student.GetPhotoGrade()}"); 
+                        Console.WriteLine($"Nätvärksbetyg: {student.GetNetworkGrade()}"); 
+                    }
+                }
+            }
         }
     }
 }
@@ -22,9 +91,15 @@ namespace Battlefield_NTI
 class Student 
 {
     public string Name { get; set;}
+    public string Description { get; set;}
 
-    public Student(string name) {
+    public Student(string name, string description) {
         Name = name;
+        Description = description;
+    }
+
+    public string GetDescription() {
+        return Description;
     }
 
     public char GetGrade(int skill) 
@@ -46,32 +121,72 @@ class Student
 class TeStudent : Student 
 {
     public int CodeSkill { get; set; }
-    public TeStudent(string name, int skill) : base(name) {
+    public int PhotoSkill { get; set; }
+    public int NetworkSkill { get; set; }
+    public TeStudent(string name, string description, int skill) : base(name, description) {
         CodeSkill = skill;
-    }
 
+        Random generator = new Random();
+        PhotoSkill = generator.Next(30, 71);
+        NetworkSkill = generator.Next(71, 101);
+    }
     public char GetCodeGrade() {
         return GetGrade(CodeSkill);
-    }
-}
-
-class EsStudent : Student 
-{
-    public int PhotoSkill { get; set; }
-    public EsStudent(string name, int skill) : base(name) {
-        PhotoSkill = skill;
     }
 
     public char GetPhotoGrade() {
         return GetGrade(PhotoSkill);
     }
+
+    public char GetNetworkGrade() {
+        return GetGrade(NetworkSkill);
+    }
+}
+
+class EsStudent : Student 
+{
+    public int CodeSkill { get; set; }
+    public int PhotoSkill { get; set; }
+    public int NetworkSkill { get; set; }
+    public EsStudent(string name, string description, int skill) : base(name, description) {
+        PhotoSkill = skill;
+
+        Random generator = new Random();
+        CodeSkill = generator.Next(40, 81);
+        NetworkSkill = generator.Next(1, 101);
+    }
+
+    public char GetCodeGrade() {
+        return GetGrade(CodeSkill);
+    }
+
+    public char GetPhotoGrade() {
+        return GetGrade(PhotoSkill);
+    }
+
+    public char GetNetworkGrade() {
+        return GetGrade(NetworkSkill);
+    }
 }
 
 class ItStudent : Student 
 {
+    public int CodeSkill { get; set; }
+    public int PhotoSkill { get; set; }
     public int NetworkSkill { get; set; }
-    public ItStudent(string name, int skill) : base(name) {
+    public ItStudent(string name, string description, int skill) : base(name, description) {
         NetworkSkill = skill;
+        Random generator = new Random();
+        CodeSkill = generator.Next(70, 101);
+        PhotoSkill = generator.Next(40, 81);
+    }
+
+    public char GetCodeGrade() {
+        return GetGrade(CodeSkill);
+    }
+
+    public char GetPhotoGrade() {
+        return GetGrade(PhotoSkill);
     }
 
     public char GetNetworkGrade() {
