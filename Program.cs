@@ -9,7 +9,12 @@ namespace Battlefield_NTI
         {
             // Frågeställning till användaren
             Console.Write("Ange hur många elever går klassen: ");
-            int numberOfStudents = int.Parse(Console.ReadLine());
+            int numberOfStudents = 0;
+            while (!int.TryParse(Console.ReadLine(), out numberOfStudents)) {
+                Console.Clear();
+                Console.WriteLine("Fel Inmatning!");
+                Console.Write("Ange hur många elever går klassen: ");
+            }
 
             List<Student> klass = new List<Student>();
 
@@ -22,7 +27,12 @@ namespace Battlefield_NTI
                 Console.Write("Program (Teknik, ES eller IT): ");
                 string program = Console.ReadLine();
                 Console.Write("Hur duktig är eleven? (0-100): ");
-                int skill = int.Parse(Console.ReadLine());
+                int skill = 0;
+                while (!int.TryParse(Console.ReadLine(), out skill)) {
+                    Console.Clear();
+                    Console.WriteLine("Fel Inmatning!");
+                    Console.Write("Hur duktig är eleven? (0-100): ");
+                }
                 switch (program)
                 {
                     case "Teknik":
