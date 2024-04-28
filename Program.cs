@@ -7,11 +7,13 @@ namespace Battlefield_NTI
     {
         static void Main(string[] args)
         {
+            // Frågeställning till användaren
             Console.Write("Ange hur många elever går klassen: ");
             int numberOfStudents = int.Parse(Console.ReadLine());
 
             List<Student> klass = new List<Student>();
 
+            // En forloop som går genom alla elever och frågar dig frågor om dem.
             for (int i = 0; i < numberOfStudents; i++)
             {
                 Console.WriteLine($"Information om elev NR. {i + 1}:");
@@ -58,6 +60,7 @@ namespace Battlefield_NTI
                 }
             }
 
+            // En foreach loop som går genom alla elever i klassen och skriver ut deras namn samt betyg.
             foreach (var Student in klass)
             {
                 Console.WriteLine($"\nNamn: {Student.Name}");
@@ -88,6 +91,9 @@ namespace Battlefield_NTI
     }
 }
 
+/// <summary>
+/// Bas klassen "Student" vilket innehåller namn och description för varje elev.
+/// </summary>
 class Student 
 {
     public string Name { get; set;}
@@ -117,7 +123,9 @@ class Student
         }
     }
 }
-
+/// <summary>
+/// Subclass till basklassen student villket genererar duktighets graden för en elev i varje ämne.
+/// </summary>
 class TeStudent : Student 
 {
     public int CodeSkill { get; set; }
@@ -142,7 +150,9 @@ class TeStudent : Student
         return GetGrade(NetworkSkill);
     }
 }
-
+/// <summary>
+/// Subclass till basklassen student villket genererar duktighets graden för en elev i varje ämne.
+/// </summary>
 class EsStudent : Student 
 {
     public int CodeSkill { get; set; }
@@ -168,7 +178,9 @@ class EsStudent : Student
         return GetGrade(NetworkSkill);
     }
 }
-
+/// <summary>
+/// Subclass till basklassen student villket genererar duktighets graden för en elev i varje ämne.
+/// </summary>
 class ItStudent : Student 
 {
     public int CodeSkill { get; set; }
